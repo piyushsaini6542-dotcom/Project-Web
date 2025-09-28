@@ -1,0 +1,30 @@
+
+.navbar {
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  border-bottom: 1px solid white;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+  font-family: 'Titillium Web', sans-serif;
+  color: rgb(241, 235, 235) !important;
+  font-size: 14px;
+}
+
+/* After scroll: Light background; dark text */
+.navbar.scrolled {
+  background-color: black !important;
+}
+
+.navbar.scrolled .nav-link,
+.navbar.scrolled .navbar-brand {
+  color: white !important;
+}
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+
+
+
