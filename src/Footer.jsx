@@ -1,56 +1,87 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Footer() {
+const Footer = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    requirement: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/api/contact", formData);
+      alert(response.data.message);
+      setFormData({ name: "", phone: "", requirement: "" });
+    } catch (error) {
+      console.error("❌ Error submitting form:", error);
+      alert("Failed to submit. Please try again.");
+    }
+  };
+
   return (
-    <footer className="bg-dark text-light pt-5 pb-3 mt-5">
+    <footer className="bg-dark text-white py-5">
       <div className="container">
         <div className="row">
-
           {/* Left: Contact Form */}
-          <div className="col-md-6 mb-4">
-            <h5 className="mb-3">Contact Us</h5>
-            <form>
+          <div className="col-md-6">
+            <h4 className="mb-4">Get in Touch</h4>
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <input
                   type="text"
-                  className="form-control"
+                  name="name"
                   placeholder="Your Name"
+                  className="form-control"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="mb-3">
                 <input
-                  type="tel"
+                  type="text"
+                  name="phone"
+                  placeholder="Your Phone"
                   className="form-control"
-                  placeholder="Your Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="mb-3">
                 <textarea
-                  className="form-control"
+                  name="requirement"
                   placeholder="Your Requirement"
+                  className="form-control"
                   rows="3"
+                  value={formData.requirement}
+                  onChange={handleChange}
+                  required
                 ></textarea>
               </div>
-              <button type="submit" className="btn btn-warning">
-                Submit
-              </button>
+              <button type="submit" className="btn btn-primary">Submit</button>
             </form>
           </div>
 
           {/* Right: Company Info */}
           <div className="col-md-6">
-            <h5 className="mb-3">Our Company</h5>
-            <p>📞 Phone: +91 8506846383</p>
-            <p>✉️ Email: piyushsaini6542@gmail.com</p>
-            <p>🏢 Address: Ajay Kumar Garg Engineering College, India</p>
-            <p>© 2025 MyBrand. All Rights Reserved.</p>
+            <h4 className="mb-4">Our Company</h4>
+            <p><strong>Phone:</strong> +91 9876543210</p>
+            <p><strong>Email:</strong> info@dreamcafe.com</p>
+            <p><strong>Address:</strong> 123 Cafe Street, Noida, India</p>
           </div>
-
         </div>
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
+

@@ -1,116 +1,107 @@
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav
-      className={`navbar navbar-expand-lg fixed-top ${
-        scrolled ? "navbar-dark bg-dark" : "navbar-dark bg-transparent"
-      }`}
+    <header
+      className={`fixed-top ${scrolled ? "bg-dark shadow-sm" : "bg-transparent"}`}
+      style={{
+        transition: "background-color 0.4s ease, box-shadow 0.4s ease",
+        zIndex: 1000,
+      }}
     >
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          MyBrand
-        </a>
+      <nav className="navbar navbar-expand-lg container py-3">
+        {/* Brand Logo */}
+        <NavLink
+          className="navbar-brand fw-bold fs-3 text-gradient"
+          to="/"
+          style={{
+            background: "linear-gradient(90deg, #ff8c00, #ffdd00)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          MyCompany
+        </NavLink>
+
+        {/* Toggle Button for Mobile */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler text-white"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          data-bs-target="#navbarNav"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarContent">
-          <ul className="navbar-nav mx-auto mb-2 mb-lg-0 ">
-            <li className="nav-item me-5">
-              <a className="nav-link active" href="#">
-                Home
-              </a>
-            </li>
-            <li className="nav-item dropdown me-5">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                About
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Our Story
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Team
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item dropdown me-5">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                Services
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Service 1
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Service 2
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item me-5">
-              <a className="nav-link" href="#">
-                Products
-              </a>
-            </li>
-            <li className="nav-item me-5">
-              <a className="nav-link" href="#">
-                Blog
-              </a>
-            </li>
-            <li className="nav-item me-5">
-              <a className="nav-link" href="#">
-                Contact
-              </a>
-            </li>
+        {/* Nav Links */}
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            {["Home", "Services", "About", "Contact"].map((page) => (
+              <li className="nav-item" key={page}>
+                <NavLink
+                  to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
+                  className={({ isActive }) =>
+                    `nav-link px-3 ${
+                      isActive
+                        ? "fw-bold active-link"
+                        : "text-light hover-underline"
+                    }`
+                  }
+                  style={{
+                    margin: "0 8px",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  {page}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Inline CSS for Custom Effects */}
+      <style>{`
+        .hover-underline {
+          position: relative;
+        }
+        .hover-underline::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          display: block;
+          margin-top: 5px;
+          right: 0;
+          background: #ffdd00;
+          transition: width 0.3s ease, left 0.3s ease;
+        }
+        .hover-underline:hover::after {
+          width: 100%;
+          left: 0;
+        }
+        .active-link {
+          color: #ffdd00 !important;
+          border-bottom: 2px solid #ffdd00;
+          transition: all 0.3s ease-in-out;
+        }
+      `}</style>
+    </header>
   );
 }
 
 export default Header;
+
 
