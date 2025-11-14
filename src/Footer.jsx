@@ -16,7 +16,7 @@ const Footer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/contact", formData);
+      const response = await axios.post("https://project-web-zwoc.onrender.com/api/contact", formData);
       alert(response.data.message);
       setFormData({ name: "", phone: "", requirement: "" });
     } catch (error) {
